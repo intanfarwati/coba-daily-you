@@ -96,29 +96,29 @@ public class ApiProduct {
         productDto.setId(product.getId());
         return productDto;
     }
+//
+//    @PostMapping("/add")
+//    public ResponseEntity<ApiResponse> addProduct(@RequestBody ProductDto productDto) {
+//        Optional<ProductCategory> optionalProductCategory = productCategoryService.readProductCategory(productDto.getIdCategory());
+//        if (!optionalProductCategory.isPresent()) {
+//            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "category is invalid"), HttpStatus.CONFLICT);
+//        }
+//        ProductCategory productCategory = optionalProductCategory.get();
+//        productService.addProduct(productDto, productCategory);
+//        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Product has been added"), HttpStatus.CREATED);
+//    }
 
-    @PostMapping("/add")
-    public ResponseEntity<ApiResponse> addProduct(@RequestBody ProductDto productDto) {
-        Optional<ProductCategory> optionalProductCategory = productCategoryService.readProductCategory(productDto.getIdCategory());
-        if (!optionalProductCategory.isPresent()) {
-            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "category is invalid"), HttpStatus.CONFLICT);
-        }
-        ProductCategory productCategory = optionalProductCategory.get();
-        productService.addProduct(productDto, productCategory);
-        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Product has been added"), HttpStatus.CREATED);
-    }
 
-
-    @PostMapping("/update/{IDproduct}")
-    public ResponseEntity<ApiResponse> updateProduct(@PathVariable("IDproduct") int idProduct, @RequestBody @Valid ProductDto productDto) {
-        Optional<ProductCategory> optionalProductCategory = productCategoryService.readProductCategory(productDto.getIdCategory());
-        if (!optionalProductCategory.isPresent()) {
-            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "category is invalid"), HttpStatus.CONFLICT);
-        }
-        ProductCategory productCategory = optionalProductCategory.get();
-        productService.updateProduct(idProduct, productDto, productCategory);
-        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Product has been updated"), HttpStatus.OK);
-    }
+//    @PostMapping("/update/{IDproduct}")
+//    public ResponseEntity<ApiResponse> updateProduct(@PathVariable("IDproduct") int idProduct, @RequestBody @Valid ProductDto productDto) {
+//        Optional<ProductCategory> optionalProductCategory = productCategoryService.readProductCategory(productDto.getIdCategory());
+//        if (!optionalProductCategory.isPresent()) {
+//            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "category is invalid"), HttpStatus.CONFLICT);
+//        }
+//        ProductCategory productCategory = optionalProductCategory.get();
+//        productService.updateProduct(idProduct, productDto, productCategory);
+//        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Product has been updated"), HttpStatus.OK);
+//    }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
