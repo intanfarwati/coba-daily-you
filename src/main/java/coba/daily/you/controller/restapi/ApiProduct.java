@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,21 +47,54 @@ public class ApiProduct {
         Product product = productRepository.findById(id).get();
         ProductDto productDto= new ProductDto();
         modelMapper.map(product, productDto);
-        modelMapper.map(product);
+        modelMapper.map(product.getProductCategory(), productDto);
+        productDto.setId(product.getId());
         return new ResponseEntity<ProductDto>(productDto, HttpStatus.OK);
     }
 
     @GetMapping("/category/{id}")
     public ResponseEntity<List<ProductDto>> getProducts(@PathVariable Integer id) {
-        List<ProductDto> body = productService.listProductByCategory(id);
+        List<ProductDto> body = listProductByCategory(id);
         return new ResponseEntity<List<ProductDto>>(body, HttpStatus.OK);
+    }
+
+    public List<ProductDto> listProductByCategory(Integer id) {
+        List<Product> products = productRepository.cariProductCategory(id);
+        List<ProductDto> productDtos = products.stream().map(product -> mapProductToProductDto(product)).collect(Collectors.toList());
+
+        return productDtos;
     }
 
     @GetMapping("/find/{product}")
     public ResponseEntity<List<ProductDto>> getProducts(@PathVariable String product) {
 //        String search= "\\y" +product+"\\y";
-        List<ProductDto> body = productService.searchProduct(product);
+        List<ProductDto> body = searchProduct(product);
         return new ResponseEntity<List<ProductDto>>(body, HttpStatus.OK);
+    }
+
+    public List<ProductDto> searchProduct(String search) {
+        List<Product> products = productRepository.searchProduct(search);
+        List<ProductDto> productDtos = products.stream().map(product -> mapProductToProductDto(product)).collect(Collectors.toList());
+
+        return productDtos;
+    }
+
+    @PostMapping
+    public ProductDto editSaveProduct(@RequestBody ProductDto productDto){
+        Product product = modelMapper.map(productDto, Product.class);
+        product.setIdCategory(productDto.getIdCategory());
+        product = productService.saveProductMaterDetail(product);
+        ProductDto productDtoDB = mapProductToProductDto(product);
+
+        return productDtoDB;
+    }
+
+    private ProductDto mapProductToProductDto(Product product){
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+        productDto.setIdCategory(product.getProductCategory().getId());
+        productDto.setCategoryName(product.getProductCategory().getCategoryName());
+        productDto.setId(product.getId());
+        return productDto;
     }
 
     @PostMapping("/add")

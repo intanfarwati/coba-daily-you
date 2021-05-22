@@ -15,6 +15,7 @@ public class ProductServiceImp implements ProductService {
     @Override
     public Product saveProductMaterDetail(Product product){
         product= productRepository.save(product);
-        product.get
+        product.setProductCategory(productCategoryRepository.findById(product.getIdCategory()).get());
+        return product;
     }
 }
