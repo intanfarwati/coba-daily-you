@@ -6,6 +6,7 @@ import coba.daily.you.model.entity.ProductCategory;
 import coba.daily.you.repository.ProductRepository;
 import coba.daily.you.service.ProductCategoryService;
 import coba.daily.you.service.ProductService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/product")
@@ -23,21 +25,28 @@ public class ApiProduct {
     ProductService productService;
 
     @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
     ProductCategoryService productCategoryService;
 
     @Autowired
     ProductRepository productRepository;
 
     @GetMapping()
-    public ResponseEntity<List<ProductDto>> getProducts() {
-        List<ProductDto> body = productService.listProducts();
-        return new ResponseEntity<List<ProductDto>>(body, HttpStatus.OK);
+    public ResponseEntity<List<ProductDto>> getListProducts() {
+        List<Product> productList = productRepository.findAll();
+        List<ProductDto> productDtos = productList.stream().map(product -> mapProductToProductDto(product)).collect(Collectors.toList());
+//        List<ProductDto> body = productService.listProducts();
+        return new ResponseEntity<List<ProductDto>>(productDtos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable Integer id) {
         Product product = productRepository.findById(id).get();
-        ProductDto productDto= new ProductDto(product);
+        ProductDto productDto= new ProductDto();
+        modelMapper.map(product, productDto);
+        modelMapper.map(product);
         return new ResponseEntity<ProductDto>(productDto, HttpStatus.OK);
     }
 

@@ -28,41 +28,12 @@ public class Product {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_category",  nullable = false)
-    ProductCategory productCategory;
+    @JoinColumn(name = "id_category",  nullable = false, insertable = false, updatable = false)
+    private ProductCategory productCategory;
+
+    @Column(name = "id_category_name", nullable = false)
+    private Integer idCategory;
 
 
-    public Product(ProductDto productDto, ProductCategory productCategory) {
-        this.id= productDto.getId();
-        this.productName = productDto.getProductName();
-        this.stock = productDto.getStock();
-        this.price = productDto.getPrice();
-        this.pictureUrl=productDto.getPictureUrl();
-        this.productCategory = productCategory;
-    }
-
-    public Product(Integer id, String productName, int stock, String pictureUrl, double price, ProductCategory productCategory) {
-        super();
-        this.id=id;
-        this.productName = productName;
-        this.stock = stock;
-        this.price = price;
-        this.pictureUrl=pictureUrl;
-        this.productCategory = productCategory;
-    }
-    public Product() {
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                ", id='" + id + '\'' +
-                ", productName='" + productName + '\'' +
-                ", stock='" + stock + '\'' +
-                ", price=" + price + '\'' +
-                ", pictureURL='" + pictureUrl + '\'' +
-                ", idCategory='" + productCategory + '\'' +
-                '}';
-    }
 }
 
