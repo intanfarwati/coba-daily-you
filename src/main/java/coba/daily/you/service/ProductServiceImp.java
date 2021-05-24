@@ -4,7 +4,9 @@ import coba.daily.you.model.entity.Product;
 import coba.daily.you.repository.ProductCategoryRepository;
 import coba.daily.you.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProductServiceImp implements ProductService {
     @Autowired
     private ProductRepository productRepository;

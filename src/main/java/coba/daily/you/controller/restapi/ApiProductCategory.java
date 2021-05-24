@@ -35,13 +35,27 @@ public class ApiProductCategory {
     }
 
     @PostMapping
-    public ProductDto editSaveProductCategory(@RequestBody ProductDto productDto){
-        ProductCategory productCategory = modelMapper.map(productDto, ProductCategory.class);
-        productCategory.setCategoryName(productDto.getCategoryName());
-        productCategory = productCategoryService.saveProductCategoryMaterDetail(productCategory);
-        ProductDto productCategoryDtoDB = mapProductCategoryToProductDto(productCategory);
+    public ResponseEntity<ApiResponse> editSaveProductCategory(@RequestBody ProductCategory productCategory){
+        if (Helper.notNull(readProductCategory(productCategory.getCategoryName()))) {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "category already exists"), HttpStatus.CONFLICT);
+        }
+        createProductCategory(productCategory);
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "created the category"), HttpStatus.CREATED);
 
-        return productCategoryDtoDB;
+//        ProductCategory productCategory = modelMapper.map(productDto, ProductCategory.class);
+//        ProductCategory productCategory1 = new ProductCategory();
+//        productCategory1.setCategoryName(productDto.getCategoryName());
+//        productCategory1 = productCategoryService.saveProductCategoryMaterDetail(productCategory);
+//        ProductDto productCategoryDtoDB = mapProductCategoryToProductDto(productCategory1);
+
+//        return productCategoryDtoDB;
+    }
+
+    public ProductCategory readProductCategory(String categoryName) {
+        return productCategoryRepository.findByCategoryName(categoryName);
+    }
+    public void createProductCategory(ProductCategory productCategory) {
+        productCategoryRepository.save(productCategory);
     }
 
     private ProductDto mapProductCategoryToProductDto(ProductCategory productCategory){

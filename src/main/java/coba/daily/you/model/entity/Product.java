@@ -18,20 +18,20 @@ public class Product {
     @SequenceGenerator(name = TABLE_NAME, sequenceName = "t_product_seq")
     private Integer id;
 
-    private @NotNull String productName;
+    private String productName;
 
-    private @NotNull Integer stock;
+    private Integer stock;
 
-    private @NotNull Double price;
+    private Double price;
 
-    private @NotNull String pictureUrl;
+    private String pictureUrl;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_category",  nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "id_category", insertable = false, updatable = false)
     private ProductCategory productCategory;
 
-    @Column(name = "id_category_name", nullable = false)
+    @Column(name = "id_category", nullable = false)
     private Integer idCategory;
 
 
