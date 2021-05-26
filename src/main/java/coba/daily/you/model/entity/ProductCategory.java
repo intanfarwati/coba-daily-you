@@ -13,10 +13,11 @@ public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = TABLE_NAME)
     @SequenceGenerator(name = TABLE_NAME, sequenceName = "t_category_product_seq")
+    @Column(name="id_category")
     private Integer id;
 
     @Column(name = "category_name")
-    private @NotBlank String categoryName;
+    private String categoryName;
 
 }
 

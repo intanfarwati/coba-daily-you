@@ -58,11 +58,11 @@ public class ApiProductCategory {
         productCategoryRepository.save(productCategory);
     }
 
-    private ProductDto mapProductCategoryToProductDto(ProductCategory productCategory){
-        ProductDto productDto = modelMapper.map(productCategory, ProductDto.class);
-      productDto.setId(productCategory.getId());
-        return productDto;
-    }
+//    private ProductDto mapProductCategoryToProductDto(ProductCategory productCategory){
+//        ProductDto productDto = modelMapper.map(productCategory, ProductDto.class);
+//      productDto.setId(productCategory.getId());
+//        return productDto;
+//    }
 
 //    @PostMapping("/create")
 //    public ResponseEntity<ApiResponse> createProductCategory(@Valid @RequestBody ProductCategory productCategory) {
