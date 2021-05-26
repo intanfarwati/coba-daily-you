@@ -111,6 +111,25 @@
 <!--			<artifactId>logback-core</artifactId>-->
 <!--			<version>1.2.3</version>-->
 <!--		</dependency>-->
+
+<!--		jasper-->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<!--<version>6.1.0</version>-->
+			<version>6.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.12</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
