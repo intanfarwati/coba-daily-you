@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="laporan_product" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4df9a312-21f1-40cb-b8d6-3c788edbbb5d">
+    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="product"/>
+
+    <field name="id" class="java.lang.Integer">
+       
+    </field>
+    <field name="idCategory" class="java.lang.Integer">
+    </field>
+    <field name="productName" class="java.lang.String">
+    </field>
+    <field name="price" class="java.lang.Double">
+    </field>
+    <field name="stock" class="java.lang.Integer">
+    </field>
+    <field name="pictureUrl" class="java.lang.String">
+    </field>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="40" splitType="Stretch">
+            <staticText>
+                <reportElement mode="Opaque" x="42" y="10" width="471" height="30" backcolor="#F3B3FC" uuid="f2e90560-26ba-4be7-abea-1bf60e335b03"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Century Gothic" size="18"/>
+                </textElement>
+                <text><![CDATA[Product Report]]></text>
+            </staticText>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="50" splitType="Stretch">
+            <staticText>
+                <reportElement x="167" y="10" width="226" height="30" backcolor="#FCCFFF" uuid="e2d2829c-a298-4ec9-8ed3-f645a8219519"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Century Gothic" size="12"/>
+                </textElement>
+                <text><![CDATA[This is the list of all products we have]]></text>
+            </staticText>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="38" splitType="Stretch">
+            <property name="com.jaspersoft.studio.unit.height" value="px"/>
+            <staticText>
+                <reportElement x="40" y="9" width="61" height="21" uuid="85591a04-107b-4310-9ac5-f5efdab0865a"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Century Gothic"/>
+                </textElement>
+                <text><![CDATA[Product ID]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="110" y="9" width="80" height="21" uuid="d72e7d24-17cd-41ca-a0f7-b92b1ba71f28"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Century Gothic"/>
+                </textElement>
+                <text><![CDATA[Product Name]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="210" y="9" width="51" height="21" uuid="1a3297e0-a53f-44a1-94de-997a6c7f58c9"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Century Gothic"/>
+                </textElement>
+                <text><![CDATA[Stock]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="270" y="9" width="61" height="21" uuid="964d3f40-67f4-44a9-b09c-cfe406818496"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Century Gothic"/>
+                </textElement>
+                <text><![CDATA[Price]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="340" y="9" width="93" height="21" uuid="966fc55f-e15f-44e9-a350-76469587d5d9"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Century Gothic"/>
+                </textElement>
+                <text><![CDATA[Picture URL]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="440" y="9" width="70" height="21" uuid="a323d862-edca-4860-9f53-3c2026728973"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Century Gothic"/>
+                </textElement>
+                <text><![CDATA[Category ID]]></text>
+            </staticText>
+            <line>
+                <reportElement mode="Opaque" x="39" y="33" width="471" height="1" forecolor="#D955FA" uuid="062144e8-78a2-4f66-a1fe-a003d47d52d3"/>
+            </line>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="32" splitType="Stretch">
+            <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+            <textField>
+                <reportElement x="45" y="2" width="51" height="21" uuid="402d8d56-00fc-4f2b-bfef-e9f95e395295">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b17a53f0-2eb2-4a85-b10f-c94278b93c31"/>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Century Gothic"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="110" y="2" width="80" height="21" uuid="b3de5025-bbf5-4b0a-8bdd-ac19d9e1f1d8">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="be7b2905-65f1-4743-8639-c80226fcbf44"/>
+                </reportElement>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Century Gothic"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="210" y="2" width="51" height="21" uuid="fe53dd65-2015-44dd-8211-c853cb7715a8">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4cdae8a8-8a85-4617-945c-84e58ddc536d"/>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Century Gothic"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{stock}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="270" y="3" width="61" height="20" uuid="cfe98897-eba8-4b66-94ca-adf65339299c">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f1cf71f6-05ea-4083-acfd-9b6915eef46d"/>
+                </reportElement>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Century Gothic"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Rp."+$F{price}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="340" y="3" width="93" height="20" uuid="0313c75e-7681-44ca-93ff-d01e9f7e9773">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="21ea5468-a807-477c-b103-203ddfbe46d8"/>
+                </reportElement>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Century Gothic"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{pictureUrl}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="446" y="2" width="59" height="20" uuid="5666754d-5647-4f48-8497-8f69e5c609c0">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="73e2d725-0e90-4dd5-b79d-0ab6253a8a14"/>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Century Gothic"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{idCategory}]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement x="38" y="25" width="472" height="1" forecolor="#FAC5F5" uuid="0bfb8a85-90e7-4bae-a3a0-d7484e78ca32"/>
+            </line>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="45" splitType="Stretch"/>
+    </columnFooter>
+    <pageFooter>
+        <band height="60" splitType="Stretch">
+            <textField>
+                <reportElement x="450" y="40" width="100" height="20" uuid="abce6179-bb83-49aa-a4ac-3ccb99e8bb08"/>
+                <textElement>
+                    <font fontName="Century Gothic"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+</jasperReport>

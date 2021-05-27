@@ -2,6 +2,7 @@ package coba.daily.you.controller.report;
 
 
 import coba.daily.you.configuration.exception.ReportException;
+import coba.daily.you.model.dto.ProductDto;
 import coba.daily.you.model.entity.Product;
 import coba.daily.you.report.CustomJRDataSource;
 import coba.daily.you.repository.ProductRepository;
@@ -10,6 +11,7 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import org.apache.log4j.Logger;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -41,13 +44,16 @@ public class ReportController {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     final static Logger logger = Logger.getLogger(ReportController.class);
     final static String pdfSource = "src/main/resources/static/assets/jasper/report.pdf";
 
     private void generateReport(List<Product> products) throws JRException{
         logger.info("[!] Start generate report");
         // Path to our template goes here
-        JasperReport jasperReport = JasperCompileManager.compileReport("src/main/resources/static/assets/jasper/product.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport("src/main/resources/static/assets/jasper/report.jrxml");
         // load data to datasource
         CustomJRDataSource<Product> dataSource = new CustomJRDataSource<Product>().using(products);
         // Map datasource to template
@@ -55,11 +61,13 @@ public class ReportController {
         // Export to pdf
         JasperExportManager.exportReportToPdfFile(jasperPrint,pdfSource);
     }
+
     @RequestMapping(value = "/getReport", method = RequestMethod.GET)
     public HttpEntity<byte[]> getReport() throws JRException,IOException {
         // Stub data
 
         List<Product> products = productRepository.findAll();
+
         System.out.println(products);
         generateReport(products);
         logger.info("[+] Generated report successfully");
@@ -77,7 +85,7 @@ public class ReportController {
     private byte[] generateReportXlsx(List<Product> products) throws JRException, ReportException{
         logger.info("[!] Start generate report");
         // Path to our template goes here
-        JasperReport jasperReport = JasperCompileManager.compileReport("src/main/resources/static/assets/jasper/product.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport("src/main/resources/static/assets/jasper/report.jrxml");
         // load data to datasource
         CustomJRDataSource<Product> dataSource = new CustomJRDataSource<Product>().using(products);
         // Map datasource to template

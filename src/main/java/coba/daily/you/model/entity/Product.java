@@ -30,7 +30,6 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_category", insertable = false, updatable = false)
     private ProductCategory productCategory;
-
     @Column(name = "id_category", nullable = false)
     private Integer idCategory;
 
