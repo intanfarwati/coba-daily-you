@@ -43,6 +43,7 @@ public class CustomJRDataSource<T> implements JRDataSource {
         try {
             info = Introspector.getBeanInfo(currentObject.getClass());
             for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
+                System.out.println(pd.getName());
                 if (pd.getName().equals(jrField.getName())) {
                     Method reader = pd.getReadMethod();
                     return reader.invoke(currentObject);

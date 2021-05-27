@@ -1,10 +1,14 @@
 package coba.daily.you.controller.report;
 
 
+import coba.daily.you.configuration.exception.ReportException;
 import coba.daily.you.model.entity.Product;
 import coba.daily.you.report.CustomJRDataSource;
 import coba.daily.you.repository.ProductRepository;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -14,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -67,5 +72,56 @@ public class ReportController {
         byte[] documentBody = Files.readAllBytes(new File(pdfSource).toPath());
         header.setContentLength(documentBody.length);
         return new HttpEntity<byte[]>(documentBody, header);
+    }
+
+    private byte[] generateReportXlsx(List<Product> products) throws JRException, ReportException{
+        logger.info("[!] Start generate report");
+        // Path to our template goes here
+        JasperReport jasperReport = JasperCompileManager.compileReport("src/main/resources/static/assets/jasper/product.jrxml");
+        // load data to datasource
+        CustomJRDataSource<Product> dataSource = new CustomJRDataSource<Product>().using(products);
+        // Map datasource to template
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap<String,Object>(), dataSource);
+        // Export to pdf
+
+        return getReportXlx(jasperPrint);
+    }
+
+    private byte[] getReportXlx(JasperPrint jasperPrint) throws ReportException{
+        final JRXlsxExporter xlsxExporter = new JRXlsxExporter();
+        final byte[] rawBytes;
+
+        try(final ByteArrayOutputStream xlsReport = new ByteArrayOutputStream()){
+            xlsxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+            xlsxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(xlsReport));
+            xlsxExporter.exportReport();
+
+            rawBytes = xlsReport.toByteArray();
+        } catch (JRException | IOException e) {
+            throw new ReportException(e);
+        }
+
+        return rawBytes;
+    }
+
+
+    @RequestMapping(value = "/getReportExcel", method = RequestMethod.GET)
+    public HttpEntity<byte[]> getReportExcel() throws JRException, IOException, ReportException {
+        // Stub data
+
+        List<Product> products = productRepository.findAll();
+        System.out.println(products);
+//        generateReport(products);
+        logger.info("[+] Generated report successfully");
+        byte[] data=generateReportXlsx(products);
+        // Force download
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        header.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=productReport.xlsx");
+        header.setContentLength(data.length);
+//        byte[] documentBody = Files.readAllBytes(new File(pdfSource).toPath());
+
+        header.setContentLength(data.length);
+        return new HttpEntity<byte[]>(data, header);
     }
 }
