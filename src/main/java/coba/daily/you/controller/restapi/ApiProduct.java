@@ -9,10 +9,17 @@ import coba.daily.you.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -79,9 +86,15 @@ public class ApiProduct {
         return productDtos;
     }
 
-    @PostMapping
-    public ProductDto editSaveProduct(@RequestBody ProductDto productDto){
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, value="/save")
+    public ProductDto editSaveProduct(@RequestPart(value="data", required = true) ProductDto productDto, @RequestPart(value="pictureUrl", required = true) MultipartFile file) throws Exception{
         Product product = modelMapper.map(productDto, Product.class);
+        String userFolderPath = "C:/Users/lenovo/Documents/INTAN/Image/";
+        Path path = Paths.get(userFolderPath);
+        Path filePath = path.resolve(file.getOriginalFilename());
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        product.setPictureUrl(file.getOriginalFilename());
         product.setIdCategory(productDto.getIdCategory());
         product = productService.saveProductMaterDetail(product);
         ProductDto productDtoDB = mapProductToProductDto(product);
@@ -119,6 +132,16 @@ public class ApiProduct {
 //        productService.updateProduct(idProduct, productDto, productCategory);
 //        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Product has been updated"), HttpStatus.OK);
 //    }
+
+    @GetMapping("/getImage/{id}")
+    public byte[] getImage(@PathVariable Integer id) throws IOException {
+        Product product = productRepository.findById(id).get();
+        String userFolderPath = "C:/Users/lenovo/Documents/INTAN/Image/";
+        String pathFile = userFolderPath + product.getPictureUrl();
+        Path paths = Paths.get(pathFile);
+        byte[] foto = Files.readAllBytes(paths);
+        return foto;
+    }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
