@@ -24,22 +24,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.Base64;
 
 @RestController
 @RequestMapping("/api/product")
 public class ApiProduct {
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
+
 
     @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
-    ProductCategoryService productCategoryService;
+    private ProductCategoryService productCategoryService;
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @GetMapping()
     public ResponseEntity<List<ProductDto>> getListProducts() {
@@ -134,13 +136,14 @@ public class ApiProduct {
 //    }
 
     @GetMapping("/getImage/{id}")
-    public byte[] getImage(@PathVariable Integer id) throws IOException {
+    public String getImage(@PathVariable Integer id) throws IOException {
         Product product = productRepository.findById(id).get();
         String userFolderPath = "C:/Users/lenovo/Documents/INTAN/Image/";
         String pathFile = userFolderPath + product.getPictureUrl();
         Path paths = Paths.get(pathFile);
         byte[] foto = Files.readAllBytes(paths);
-        return foto;
+        String img = Base64.getEncoder().encodeToString(foto);
+        return img;
     }
 
     @DeleteMapping("/{id}")
