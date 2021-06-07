@@ -10,12 +10,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @PropertySource("file:${C:/Users/lenovo//Documents/INTAN/TUGAS/MP/you/src/main/resources/}clients.properties")
 public class WebConfig implements WebMvcConfigurer
 {
-    @Value("${allowedHosts}")
+    @Value("*")
     private String allowedHosts;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins(allowedHosts.split(","));
+        registry.addMapping("/**").allowedOrigins(allowedHosts.split(",")).allowedMethods("POST", "PUT", "DELETE", "GET");
 
     }
 }
